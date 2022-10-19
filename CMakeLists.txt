@@ -2,14 +2,22 @@ cmake_minimum_required(VERSION 3.13.4)
 
 project(olas VERSION 1.0)
 
+#			Adder use logic
+option(USE_ADDER "A simple library for adding 2 floats." ON)
+
+if(USE_ADDER)
+	add_subdirectory(Adder)
+
+	list(APPEND EXTRA_LIB_DIR "Adder")
+	list(APPEND EXTRA_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/Adder")
+	list(APPEND EXTRA_LINK_LIB "adder")
+endif()
+
 configure_file(olasconfig.h.in olasconfig.h)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
-
-add_subdirectory(Adder)
-
 
 # 			DOWNLOAD ALL THE SUBMODULES
 find_package(Git QUIET)
@@ -30,21 +38,24 @@ endif()
 #			CHECK ALL THE SUBMODULES
 if(NOT EXISTS "${PROJECT_SOURCE_DIR}/external/glfw/CMakeLists.txt")
 	message(FATAL_ERROR "The glfw submodules was not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+else()
+	list(APPEND EXTRA_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/external/glfw/include")
+	list(APPEND EXTRA_LIB_DIR "external/glfw/src")
+	list(APPEND EXTRA_LINK_LIB "glfw")
 endif()
 
 add_subdirectory(external/glfw)
 
 target_include_directories(${PROJECT_NAME}
-	PUBLIC Adder
-	PUBLIC external/glfw/include
+	PUBLIC
+	${EXTRA_INCLUDE_DIR}
 )
 
 target_link_directories(${PROJECT_NAME}
-	PRIVATE Adder
-	PRIVATE external/glfw/src
+	PRIVATE
+	${EXTRA_LIB_DIR}
 )
 
 target_link_libraries(${PROJECT_NAME}
-	adder
-	glfw
+	${EXTRA_LINK_LIB}
 )

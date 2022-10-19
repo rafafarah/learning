@@ -1,12 +1,19 @@
 #include <iostream>
-#include <adder.h>
 #include <GLFW/glfw3.h>
 #include <olasconfig.h>
+#ifdef USE_ADDER
+	#include <adder.h>
+#endif
 
 int main(int argc, char const *argv[])
 {
 	std::cout << "hello world" << std::endl;
+
+#ifdef USE_ADDER
 	std::cout << add(72.1f, 73.8f) << std::endl;
+#else
+	std::cout << "No adder module" << std::endl;
+#endif
 
 	std::cout << argv[0] << " Version " << OLAS_VERSION_MAJOR << "." << OLAS_VERSION_MINOR << std::endl;
 
