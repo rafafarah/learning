@@ -59,3 +59,6 @@ target_link_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
 	${EXTRA_LINK_LIB}
 )
+
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(FILES "${PROJECT_BINARY_DIR}/olasconfig.h" DESTINATION include)
