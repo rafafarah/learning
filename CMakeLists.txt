@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.13.4)
 
-project(olas)
+project(olas VERSION 1.0)
+
+configure_file(olasconfig.h.in olasconfig.h)
 
 add_executable(${PROJECT_NAME} main.cpp)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
 
 add_subdirectory(Adder)
 
