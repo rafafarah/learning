@@ -1,0 +1,4 @@
+#define OLAS_VERSION_MAJOR @olas_VERSION_MAJOR@
+#define OLAS_VERSION_MINOR @olas_VERSION_MINOR@
+
+#cmakedefine USE_ADDER
